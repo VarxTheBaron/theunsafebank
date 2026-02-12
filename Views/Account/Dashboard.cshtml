@@ -1,20 +1,20 @@
 @model theunsafebank.Models.Account
 @{
-    ViewData["Title"] = "My Account";
+    ViewData["Title"] = "Ditt konto";
 }
 
 <center>
-    <h2>Welcome, @Model.Customer.FullName!</h2>
-    <p><a href="/Auth/Logout">Logout</a></p>
+    <h2>Välkommen, @Model.Customer.FullName!</h2>
+    <p><a href="/Auth/Logout">Logga ut</a></p>
 </center>
 
 <hr>
 
-<h3>My Account Information</h3>
+<h3>Ditt konto</h3>
 <table border="1" cellpadding="10" cellspacing="0" width="100%">
     <tr bgcolor="#cccccc">
-        <td><b>Account Number</b></td>
-        <td><b>Balance</b></td>
+        <td><b>Kontonummer</b></td>
+        <td><b>Saldo</b></td>
     </tr>
     <tr>
         <td>@Model.AccountNumber</td>
@@ -24,11 +24,11 @@
 
 <hr>
 
-<h3>Make a Transfer</h3>
+<h3>Gör en överföring</h3>
 
 @if (TempData["Error"] != null)
 {
-    <p style="color: red;"><b>Error: @TempData["Error"]</b></p>
+    <p style="color: red;"><b>Fel: @TempData["Error"]</b></p>
 }
 
 @if (TempData["Success"] != null)
@@ -39,16 +39,20 @@
 <form method="post" action="/Account/Transfer">
     <table border="0" cellpadding="5">
         <tr>
-            <td><b>To Account Number:</b></td>
+            <td><b>Till konto:</b></td>
             <td><input type="text" name="toAccountNumber" size="30" /></td>
         </tr>
         <tr>
-            <td><b>Amount (SEK):</b></td>
+            <td><b>Summa (SEK):</b></td>
             <td><input type="text" name="amount" size="30" /></td>
         </tr>
         <tr>
-            <td><b>Message:</b></td>
-            <td><input type="text" name="message" size="30" /></td>
+            <td><b>Meddelande till mottagaren:</b></td>
+            <td><input type="text" name="receiverMessage" size="30" /></td>
+        </tr>
+        <tr>
+            <td><b>Meddelande till dig:</b></td>
+            <td><input type="text" name="senderNote" size="30" /></td>
         </tr>
         <tr>
             <td colspan="2">
@@ -60,13 +64,29 @@
 
 <hr>
 
-<h3>Transfer History</h3>
+<h3>Transaktionshistorik</h3>
 
 @{
     var allTransfers = Model.TransfersFrom
-        .Select(t => new { Date = t.Date, Type = "Sent", Account = t.ToAccount.AccountNumber, Amount = -t.Amount, Message = t.Message })
+        .Select(t => new
+        {
+            Date = t.Date,
+            Type = "Sent",
+            Account = t.ToAccount.AccountNumber,
+            Amount = -t.Amount,
+            Message =
+t.SenderNote
+        })
         .Concat(Model.TransfersTo
-            .Select(t => new { Date = t.Date, Type = "Received", Account = t.FromAccount.AccountNumber, Amount = t.Amount, Message = t.Message }))
+            .Select(t => new
+            {
+                Date = t.Date,
+                Type = "Received",
+                Account = t.FromAccount.AccountNumber,
+                Amount = t.Amount,
+                Message =
+t.ReceiverMessage
+            }))
         .OrderByDescending(t => t.Date)
         .ToList();
 }
@@ -75,11 +95,11 @@
 {
     <table border="1" cellpadding="5" cellspacing="0" width="100%">
         <tr bgcolor="#cccccc">
-            <td><b>Date</b></td>
-            <td><b>Type</b></td>
-            <td><b>Account</b></td>
-            <td><b>Amount</b></td>
-            <td><b>Message</b></td>
+            <td><b>Datum</b></td>
+            <td><b>Typ</b></td>
+            <td><b>Konto</b></td>
+            <td><b>Summa</b></td>
+            <td><b>Meddelande</b></td>
         </tr>
         @foreach (var transfer in allTransfers)
         {
@@ -97,5 +117,5 @@
 }
 else
 {
-    <p><i>No transfers yet.</i></p>
+    <p><i>Inga överföringar än. Kom igen!</i></p>
 }

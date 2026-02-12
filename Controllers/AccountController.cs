@@ -43,7 +43,7 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public IActionResult Transfer(string toAccountNumber, decimal amount, string message)
+    public IActionResult Transfer(string toAccountNumber, decimal amount, string receiverMessage, string senderNote)
     {
         // INSECURE: No CSRF protection, minimal validation
         var customerId = GetCustomerIdFromCookie();
@@ -100,7 +100,8 @@ public class AccountController : Controller
             FromAccountId = fromAccount.Id,
             ToAccountId = toAccount.Id,
             Amount = amount,
-            Message = message ?? "", // INSECURE: No XSS protection
+            ReceiverMessage = receiverMessage ?? "", // INSECURE: No XSS protection
+            SenderNote = senderNote ?? "", // INSECURE: No XSS protection
             Date = DateTime.Now
         };
 

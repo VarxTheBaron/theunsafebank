@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<center>
+    <h2>UnsafeBank Online Registration</h2>
+    <h3>Open Your New Account Today!</h3>
+    <p><i>Get 10,000 SEK when you sign up!</i></p>
+
+    @if (ViewBag.Error != null)
+    {
+        <p style="color: red;"><b>@ViewBag.Error</b></p>
+    }
+
+    <form method="post" action="/Auth/Register">
+        <table border="0" cellpadding="5">
+            <tr>
+                <td align="right"><b>Full Name:</b></td>
+                <td><input type="text" name="fullName" size="30" /></td>
+            </tr>
+            <tr>
+                <td align="right"><b>Username:</b></td>
+                <td><input type="text" name="username" size="30" /></td>
+            </tr>
+            <tr>
+                <td align="right"><b>Password:</b></td>
+                <td><input type="password" name="password" size="30" /></td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <input type="submit" value="Register" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <p>
+        <a href="/Auth/Login">Already have an account? Login here!</a>
+    </p>
+</center>

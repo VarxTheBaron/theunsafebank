@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - UnsafeBank Online</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td bgcolor="#003366" height="80">
+                <center>
+                    <font color="white" size="6"><b>💰 UnsafeBank Online Banking 💰</b></font>
+                    <br />
+                    <font color="#ffcc00" size="2"><i>Your Money, Less Secure Since 2000</i></font>
+                </center>
+            </td>
+        </tr>
+    </table>
+
+    <table width="100%" border="0" cellpadding="20">
+        <tr>
+            <td>
+                @RenderBody()
+            </td>
+        </tr>
+    </table>
+
+    <hr>
+    
+    <center>
+        <font size="1" color="#666666">
+            &copy; 2000-2026 UnsafeBank Online | <i>This site is intentionally insecure for educational purposes</i>
+        </font>
+    </center>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

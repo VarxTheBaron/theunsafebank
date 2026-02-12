@@ -1,0 +1,101 @@
+@model theunsafebank.Models.Account
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<center>
+    <h2>Welcome, @Model.Customer.FullName!</h2>
+    <p><a href="/Auth/Logout">Logout</a></p>
+</center>
+
+<hr>
+
+<h3>My Account Information</h3>
+<table border="1" cellpadding="10" cellspacing="0" width="100%">
+    <tr bgcolor="#cccccc">
+        <td><b>Account Number</b></td>
+        <td><b>Balance</b></td>
+    </tr>
+    <tr>
+        <td>@Model.AccountNumber</td>
+        <td><b>@Model.Balance.ToString("N2") SEK</b></td>
+    </tr>
+</table>
+
+<hr>
+
+<h3>Make a Transfer</h3>
+
+@if (TempData["Error"] != null)
+{
+    <p style="color: red;"><b>Error: @TempData["Error"]</b></p>
+}
+
+@if (TempData["Success"] != null)
+{
+    <p style="color: green;"><b>@TempData["Success"]</b></p>
+}
+
+<form method="post" action="/Account/Transfer">
+    <table border="0" cellpadding="5">
+        <tr>
+            <td><b>To Account Number:</b></td>
+            <td><input type="text" name="toAccountNumber" size="30" /></td>
+        </tr>
+        <tr>
+            <td><b>Amount (SEK):</b></td>
+            <td><input type="text" name="amount" size="30" /></td>
+        </tr>
+        <tr>
+            <td><b>Message:</b></td>
+            <td><input type="text" name="message" size="30" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="submit" value="Send Transfer" />
+            </td>
+        </tr>
+    </table>
+</form>
+
+<hr>
+
+<h3>Transfer History</h3>
+
+@{
+    var allTransfers = Model.TransfersFrom
+        .Select(t => new { Date = t.Date, Type = "Sent", Account = t.ToAccount.AccountNumber, Amount = -t.Amount, Message = t.Message })
+        .Concat(Model.TransfersTo
+            .Select(t => new { Date = t.Date, Type = "Received", Account = t.FromAccount.AccountNumber, Amount = t.Amount, Message = t.Message }))
+        .OrderByDescending(t => t.Date)
+        .ToList();
+}
+
+@if (allTransfers.Any())
+{
+    <table border="1" cellpadding="5" cellspacing="0" width="100%">
+        <tr bgcolor="#cccccc">
+            <td><b>Date</b></td>
+            <td><b>Type</b></td>
+            <td><b>Account</b></td>
+            <td><b>Amount</b></td>
+            <td><b>Message</b></td>
+        </tr>
+        @foreach (var transfer in allTransfers)
+        {
+            <tr>
+                <td>@transfer.Date.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                <td>@transfer.Type</td>
+                <td>@transfer.Account</td>
+                <td style="color: @(transfer.Amount > 0 ? "green" : "red")">
+                    @transfer.Amount.ToString("N2") SEK
+                </td>
+                <td>@Html.Raw(transfer.Message)</td>
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p><i>No transfers yet.</i></p>
+}

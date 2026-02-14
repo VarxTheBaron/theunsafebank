@@ -3,8 +3,8 @@
 }
 
 <center>
-    <h2>Welcome to UnsafeBank Online</h2>
-    <h3>Login to Your Account</h3>
+    <h2>Välkommen till Suverän Bank™!</h2>
+    <h3>Använd vår Säkerinlogg™ nedan för att logga in.</h3>
 
     @if (ViewBag.Error != null)
     {
@@ -14,11 +14,11 @@
     <form method="post" action="/Auth/Login">
         <table border="0" cellpadding="5">
             <tr>
-                <td align="right"><b>Username:</b></td>
+                <td align="right"><b>Användarnamn:</b></td>
                 <td><input type="text" name="username" size="30" /></td>
             </tr>
             <tr>
-                <td align="right"><b>Password:</b></td>
+                <td align="right"><b>Lösenord:</b></td>
                 <td><input type="password" name="password" size="30" /></td>
             </tr>
             <tr>
@@ -28,8 +28,4 @@
             </tr>
         </table>
     </form>
-
-    <p>
-        <a href="/Auth/Register">New customer? Register here!</a>
-    </p>
 </center>

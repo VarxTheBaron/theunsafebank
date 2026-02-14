@@ -34,14 +34,14 @@ using (var scope = app.Services.CreateScope())
 // app.UseHttpsRedirection();
 
 app.UseRouting();
-// app.UseSession(); // INSECURE: Session is not properly configured, and not used in controllers
+// app.UseSession(); // FIXME: Session is not properly configured, and not used in controllers
 app.UseAuthorization();
 
 app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Auth}/{action=Login}/{id?}")
+    pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
 

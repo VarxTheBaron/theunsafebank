@@ -6,11 +6,11 @@ public class Transfer
     public int FromAccountId { get; set; }
     public int ToAccountId { get; set; }
     public decimal Amount { get; set; }
-    public string ReceiverMessage { get; set; }
-    public string SenderNote { get; set; }
+    public string? ReceiverMessage { get; set; }
+    public string? SenderNote { get; set; }
     public DateTime Date { get; set; }
 
     // Navigation properties
-    public Account FromAccount { get; set; }
-    public Account ToAccount { get; set; }
+    public required Account FromAccount { get; set; }
+    public required Account ToAccount { get; set; }
 }

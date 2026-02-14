@@ -99,9 +99,11 @@ public class AccountController : Controller
         {
             FromAccountId = fromAccount.Id,
             ToAccountId = toAccount.Id,
+            FromAccount = fromAccount,
+            ToAccount = toAccount,
             Amount = amount,
-            ReceiverMessage = receiverMessage ?? "", // FIXME: No XSS protection on these two fields. Fix with proper encoding in the view.
-            SenderNote = senderNote ?? "",
+            ReceiverMessage = receiverMessage, // FIXME: No XSS protection on these two fields. Fix with proper encoding in the view.
+            SenderNote = senderNote,
             Date = DateTime.Now
         };
 

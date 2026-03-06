@@ -236,7 +236,7 @@ public class AccountController : Controller
 
     private int? GetCustomerIdFromSession()
     {
-        var info = HttpContext.Session.GetString("currentSession");
+        var info = HttpContext.Session.GetString("customerId");
 
         if (info != null && int.TryParse(info, out var customerId))
         {

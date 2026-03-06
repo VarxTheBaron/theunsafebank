@@ -28,7 +28,7 @@ public class AuthController : Controller
 
         if (customer != null)
         {
-            HttpContext.Session.SetString("currentSession", customer.Id.ToString());
+            HttpContext.Session.SetString("customerId", customer.Id.ToString());
             return RedirectToAction("Dashboard", "Account");
         }
 
@@ -80,13 +80,13 @@ public class AuthController : Controller
         _context.Accounts.Add(account);
         _context.SaveChanges();
 
-        HttpContext.Session.SetString("currentSession", customer.Id.ToString());
+        HttpContext.Session.SetString("customerId", customer.Id.ToString());
         return RedirectToAction("Dashboard", "Account");
     }
 
     public IActionResult Logout()
     {
-        HttpContext.Session.Remove("currentSession");
+        HttpContext.Session.Remove("customerId");
         return RedirectToAction("Login");
     }
 }

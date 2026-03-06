@@ -12,7 +12,7 @@ builder.Services.AddDbContext<BankContext>(options =>
 builder.Services.AddDistributedMemoryCache(); // In-memory cache for sessions
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.IdleTimeout = TimeSpan.FromMinutes(15);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
     options.Cookie.SameSite = SameSiteMode.Strict;
@@ -38,7 +38,7 @@ using (var scope = app.Services.CreateScope())
 app.UsePathBase("/bank"); //Eftersom siten servas under suvnet.se/bank
 
 app.UseRouting();
-app.UseSession(); // FIXME: Session is not properly configured, and not used in controllers
+app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();

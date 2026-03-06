@@ -38,6 +38,7 @@
 }
 
 <form method="post" asp-controller="Account" asp-action="Transfer">
+    @Html.AntiForgeryToken();
     <table border="0" cellpadding="5">
         <tr>
             <td><b>Till konto:</b></td>

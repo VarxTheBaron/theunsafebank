@@ -18,6 +18,8 @@ builder.Services.AddSession(options =>
     options.Cookie.SameSite = SameSiteMode.Strict;
 });
 
+builder.Services.AddAntiforgery();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -48,5 +50,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+app.UseAntiforgery();
 
 app.Run();

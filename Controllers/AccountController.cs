@@ -40,6 +40,7 @@ public class AccountController : Controller
         return View(account);
     }
 
+    [ValidateAntiForgeryToken]
     [HttpPost]
     public IActionResult Transfer(string toAccountNumber, decimal amount, string receiverMessage, string senderNote)
     {

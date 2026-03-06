@@ -16,7 +16,7 @@ public class AccountController : Controller
 
     public IActionResult Dashboard()
     {
-        var customerId = GetCustomerIdFromCookie();
+        var customerId = GetCustomerIdFromSession();
 
         if (customerId == null)
         {
@@ -43,7 +43,7 @@ public class AccountController : Controller
     [HttpPost]
     public IActionResult Transfer(string toAccountNumber, decimal amount, string receiverMessage, string senderNote)
     {
-        var customerId = GetCustomerIdFromCookie();
+        var customerId = GetCustomerIdFromSession();
 
         if (customerId == null)
         {
@@ -234,10 +234,11 @@ public class AccountController : Controller
         return Json(new { success = true, name = account.Customer.FullName });
     }
 
-    private int? GetCustomerIdFromCookie()
+    private int? GetCustomerIdFromSession()
     {
-        if (Request.Cookies.TryGetValue("CustomerId", out var rawValue)
-            && int.TryParse(rawValue, out var customerId))
+        var info = HttpContext.Session.GetString("currentSession");
+
+        if (info != null && int.TryParse(info, out var customerId))
         {
             return customerId;
         }
